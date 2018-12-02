@@ -54,7 +54,7 @@ namespace Jcsms.Aliyun
             {
                 SendSmsRequest request = new SendSmsRequest
                 {
-                    SignName = "中税华通",//必填:短信签名-可在短信控制台中找到
+                    SignName = SignName,//必填:短信签名-可在短信控制台中找到
 
                     //必填:待发送手机号。支持以逗号分隔的形式进行批量调用，批量上限为1000个手机号码,
                     // --- 批量调用相对于单条调用及时性稍有延迟,验证码类型的短信推荐使用单条调用的方式
@@ -103,45 +103,6 @@ namespace Jcsms.Aliyun
             var sentRet = Send(new List<string> { phoneNumber }, "SMS_103345009", new { code = vcode });
             //TODO: 如果要根据不同场景发送不同的模板短信,在这里处理
             return sentRet;
-
-            //switch (scope.ToLower())
-            //{
-
-            //    //TODO:作用范围标识对应的短信模板,要可以配置才行.具体业务里要求使用哪个标识怎么处理?
-            //    case "user:register":
-            //        var token = Guid.NewGuid().ToString();
-            //        var sentRet = Send(new List<string> { phoneNumber }, "SMS_103345009", new { code = vcode });
-            //        if (sentRet.Succeed)
-            //        {
-            //            ret = SimpleStatusResult.Succeeded(new
-            //            {
-            //                Token = token,
-            //                Expire = DateTime.Now.AddMinutes(5)
-            //            });
-
-            //            SetSmsCodeCache(new SmsCodeCacheItem
-            //            {
-            //                PhoneNumber = phoneNumber,
-            //                Code = vcode,
-            //                Scope = scope,
-            //                SendAt = DateTime.Now,
-            //                Token = token
-            //            });
-            //        }
-            //        else
-            //        {
-            //            // ret.Code = sentRet.Code;
-            //            ret.Text = sentRet.Message;
-            //            ret.Data = sentRet;
-            //        }
-            //        break;
-            //    //case "user:maketrade":
-            //    //    break;
-            //    default:
-            //        ret = SimpleStatusResult.Error(null, "不被支持的短信目标");
-            //        break;
-            //}
-
         }
     }
 }
