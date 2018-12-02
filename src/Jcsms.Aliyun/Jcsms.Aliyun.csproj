@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <AssemblyVersion>0.0.1.0</AssemblyVersion>
+    <FileVersion>0.0.1.0</FileVersion>
+    <Version>0.0.1</Version>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>D:\_MyWorkSpace\jcsms\src\bin\Debug\Jcsms.Aliyun.xml</DocumentationFile>
+    <OutputPath>D:\_MyWorkSpace\jcsms\src\bin\Debug</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>D:\_MyWorkSpace\jcsms\src\bin\Release</OutputPath>
+    <DocumentationFile>D:\_MyWorkSpace\jcsms\src\bin\Release\Jcsms.Aliyun.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Jcsms\Jcsms.csproj" />
+  </ItemGroup>
+
+</Project>
