@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{0E86
 		src\Publish-Nuget-Packages.ps1 = src\Publish-Nuget-Packages.ps1
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jcsms.Example.AspNetCore", "examples\Jcsms.Example.AspNetCore\Jcsms.Example.AspNetCore.csproj", "{68601535-0944-47B1-AC24-7291A7E2D775}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{602B101F-D5BF-4AF1-BD6A-8FEB28C2D0FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{602B101F-D5BF-4AF1-BD6A-8FEB28C2D0FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{602B101F-D5BF-4AF1-BD6A-8FEB28C2D0FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68601535-0944-47B1-AC24-7291A7E2D775}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68601535-0944-47B1-AC24-7291A7E2D775}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68601535-0944-47B1-AC24-7291A7E2D775}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68601535-0944-47B1-AC24-7291A7E2D775}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
