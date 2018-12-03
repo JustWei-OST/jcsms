@@ -30,7 +30,7 @@ namespace Jcsms
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="serviceOptions"></param>
         public SmsService(
@@ -84,18 +84,16 @@ namespace Jcsms
                 var token = Guid.NewGuid().ToString();
                 var sentRet = smsSender.SendCode(phoneNumber, vcode, scope, null);
                 var now = DateTime.Now;
-
+                SmsCodeCacheItem cacheItem = null;
                 if (sentRet.Succeed)
                 {
                     ret = new SendSmsCodeResult()
                     {
                         Succeed = true,
                         Message = "OK",
-                        SmsSentResult = sentRet,
                     };
 
-                    //设置缓存
-                    SetSmsCodeCache(new SmsCodeCacheItem
+                    cacheItem = new SmsCodeCacheItem
                     {
                         PhoneNumber = phoneNumber,
                         Code = vcode,
@@ -103,15 +101,18 @@ namespace Jcsms
                         SendAt = now,
                         Token = token,
                         Expire = now.AddMinutes(options.SaveCodeSeconds)
-                    });
+                    };
+
+                    //设置缓存
+                    SetSmsCodeCache(cacheItem);
                 }
                 else
                 {
                     ret.Message = sentRet.Message;
-                    ret.SmsSentResult = sentRet;
                 }
 
                 ret.SmsSentResult = sentRet;
+                ret.CacheItem = cacheItem;
                 return ret;
             }
 
