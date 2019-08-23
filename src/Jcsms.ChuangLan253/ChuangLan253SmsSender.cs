@@ -117,7 +117,8 @@ namespace Jcsms.ChuangLan253
 
             string jsonBody = JsonConvert.SerializeObject(request);
 
-            var result = SmsHelper.SendSMS(ApiUrl_Send, jsonBody);
+            var url = "http://smssh1.253.com/msg/send/json";
+            var result = SmsHelper.SendSMS(url, jsonBody);
 
             return result;
         }
