@@ -36,7 +36,10 @@ namespace Jcsms.Aliyun
         /// </summary>
         public string Provider => "阿里云短信服务";
 
-
+        /// <summary>
+        /// 默认验证码智能的模板偌
+        /// </summary>
+        public string DefaultVerSmsTemplateCode { get; set; } = "SMS_103345009";
         /// <summary>
         /// 发送模板短信
         /// </summary>
@@ -100,9 +103,14 @@ namespace Jcsms.Aliyun
         public SmsSentResult SendCode(string phoneNumber, string vcode, string scope, object smsData)
         {
             var token = Guid.NewGuid().ToString();
-            var sentRet = Send(new List<string> { phoneNumber }, "SMS_103345009", new { code = vcode });
+            var sentRet = Send(new List<string> { phoneNumber }, DefaultVerSmsTemplateCode, new { code = vcode });
             //TODO: 如果要根据不同场景发送不同的模板短信,在这里处理
             return sentRet;
+        }
+
+        public SmsSentResult SendFreeMessage(IEnumerable<string> phoneNumbers, string message)
+        {
+            throw new NotImplementedException();
         }
     }
 }

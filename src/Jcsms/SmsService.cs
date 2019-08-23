@@ -118,7 +118,14 @@ namespace Jcsms
 
         }
 
-
+        /// <summary>
+        /// 向指定的号码集合发送自写内容短信,注意,自写注意可能会被运营商屏蔽
+        /// </summary>
+        /// <param name="phoneNumbers"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public SmsSentResult SendFreeMessage(IEnumerable<string> phoneNumbers, string message)
+         => DefaulfSmsSender.SendFreeMessage(phoneNumbers, message);
         /// <summary>
         /// 检查短信发送频率,是否被流控限制发送了
         /// </summary>

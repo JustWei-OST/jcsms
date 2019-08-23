@@ -1,16 +1,20 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <AssemblyVersion>1.0.4.0</AssemblyVersion>
+    <FileVersion>1.0.4.0</FileVersion>
+    <Version>1.0.4.0</Version>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>D:\_MyWorkSpace\jcsms\src\Jcsms.ChuangLan253\Jcsms.ChuangLan253.xml</DocumentationFile>
+    <DocumentationFile>D:\_MyWorkSpace\jcsms\src\bin\Debug\Jcsms.ChuangLan253.xml</DocumentationFile>
+    <OutputPath>D:\_MyWorkSpace\jcsms\src\bin\Debug</OutputPath>
   </PropertyGroup>
-
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>D:\_MyWorkSpace\jcsms\src\bin\Release</OutputPath>
+    <DocumentationFile>D:\_MyWorkSpace\jcsms\src\bin\Release\Jcsms.ChuangLan253.xml</DocumentationFile>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Jcsms\Jcsms.csproj" />
   </ItemGroup>
-
 </Project>
