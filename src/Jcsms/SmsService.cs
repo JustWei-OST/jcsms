@@ -38,6 +38,7 @@ namespace Jcsms
             )
         {
             options = serviceOptions;
+
         }
         /// <summary>
         /// 发送短信验证码 (使用默认短信发送器)
@@ -138,7 +139,7 @@ namespace Jcsms
             {
                 throw new Exception("没有配置缓存服务");
             }
-            var ce = Cache.Get<SmsCodeCacheItem>(GetCacheKey(phoneNumber, scope));
+            var ce = Cache.Get<SmsCodeCacheItem>(options.GetSmsCodeCacheKey(phoneNumber, scope));
             var ret = ce.HasValue && (DateTime.Now - ce.Value.SendAt).TotalSeconds <= options.SendCodeIntervals;
             return ret;
         }
@@ -150,8 +151,7 @@ namespace Jcsms
         /// <returns></returns>
         public bool VerifySmsCode(VerifySmsCodeViewModel model)
         {
-
-            var ce = Cache.Get<SmsCodeCacheItem>(GetCacheKey(model));
+            var ce = Cache.Get<SmsCodeCacheItem>(options.GetSmsCodeCacheKey(model.PhoneNumber, model.Scope));
             if (ce.HasValue)
             {
                 SmsCodeCacheItem smsCodeCacheItem = ce.Value;
@@ -172,9 +172,9 @@ namespace Jcsms
         /// <param name="cacheItem">缓存值</param>
         private void SetSmsCodeCache(SmsCodeCacheItem cacheItem)
         {
-            var key = GetCacheKey(cacheItem.PhoneNumber, cacheItem.Scope);
+            var key = options.GetSmsCodeCacheKey(cacheItem.PhoneNumber, cacheItem.Scope);
 
-            Cache.Set(key, cacheItem, TimeSpan.FromMinutes(options.SaveCodeSeconds));
+            Cache.Set(key, cacheItem, TimeSpan.FromSeconds(options.SaveCodeSeconds));
 
         }
 
@@ -184,30 +184,9 @@ namespace Jcsms
         /// <param name="model"></param>
         public void RemoveSmsCodeCache(VerifySmsCodeViewModel model)
         {
-            Cache.Remove(GetCacheKey(model));
+            Cache.Remove(options.GetSmsCodeCacheKey(model.PhoneNumber, model.Scope));
         }
 
-        #region 短信验证码缓存的Key
-
-        /// <summary>
-        /// 获取验证码缓存的Key
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public string GetCacheKey(VerifySmsCodeViewModel model) => GetCacheKey(model.PhoneNumber, model.Scope);
-        /// <summary>
-        /// 获取验证码缓存的Key
-        /// </summary>
-        /// <param name="phoneNumber">手机号码</param>
-        /// <param name="scope">使用范围</param>
-        /// <returns></returns>
-        public string GetCacheKey(string phoneNumber, string scope)
-        {
-            var cacheKey = $"SMSCODE:{phoneNumber}:{scope.ToLower()}";
-            return cacheKey;
-        }
-
-        #endregion
 
     }
 }

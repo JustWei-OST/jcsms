@@ -28,5 +28,10 @@ namespace Jcsms
         /// </summary>
         public readonly List<ISmsSender> SmsSenders = new List<ISmsSender>();
 
+        /// <summary>
+        /// 短信验证码缓存Key获取器
+        /// </summary>
+        public Func<string, string, string> GetSmsCodeCacheKey { get; set; } =
+            (phoneNumber, scope) => $"SMSCODE:{scope.ToLower()}:{phoneNumber}";
     }
 }

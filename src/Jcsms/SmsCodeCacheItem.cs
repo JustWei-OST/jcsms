@@ -5,6 +5,7 @@ namespace Jcsms
     /// <summary>
     /// 短信验证码缓存项
     /// </summary>
+    [Serializable]
     public class SmsCodeCacheItem
     {
         /// <summary>
