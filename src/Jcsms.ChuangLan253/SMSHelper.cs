@@ -7,6 +7,7 @@ namespace Jcsms.ChuangLan253
 {
     /// <summary>
     /// 短信帮助类
+    /// <para>官方文档地址: https://zz.253.com/api_doc </para>
     /// </summary>
     public class SmsHelper
     {
@@ -46,26 +47,15 @@ namespace Jcsms.ChuangLan253
                         result = JsonConvert.DeserializeObject<SendSMSReturnViewModel>(streamReader.ReadToEnd());
                     }
                 }
-                if (result.successNum > 0 && result.failNum == 0)
+
+
+                return new SmsSentResult()
                 {
-                    return new SmsSentResult()
-                    {
-                        Succeed = true,
-                        Code = result.code,
-                        BizId = result.msgId,
-                        Message = result.errorMsg
-                    };
-                }
-                else
-                {
-                    return new SmsSentResult()
-                    {
-                        Succeed = false,
-                        Code = result.code,
-                        BizId = result.msgId,
-                        Message = result.errorMsg
-                    };
-                }
+                    Succeed = result.code == "0",
+                    Code = result.code,
+                    BizId = result.msgId,
+                    Message = result.errorMsg
+                };
             }
             catch (Exception ex)
             {

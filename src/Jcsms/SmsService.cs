@@ -58,6 +58,67 @@ namespace Jcsms
         /// <returns></returns>
         public SendSmsCodeResult SendSmsCode(string phoneNumber, string scope, string provider)
             => SendSmsCode(phoneNumber, scope, options.SmsSenders.Where(p => p.Provider == provider).Single());
+        /// <summary>
+        /// 发送短信验证码 (使用默认短信发送器)
+        /// </summary>
+        /// <param name="phoneNumber">手机号码</param>
+        /// <param name="scope">使用范围</param>
+        /// <param name="code">验证码</param>
+        /// <param name="content">完整短信内容</param>
+        /// <returns></returns>
+        public SendSmsCodeResult SendSmsCode(string phoneNumber, string scope, string code, string content)
+        {
+            if (string.IsNullOrWhiteSpace(code))
+            {
+                throw new Exception("验证码不能为空");
+            }
+            if (CheckFrequency(phoneNumber, scope))//限速
+            {
+                return new SendSmsCodeResult()
+                {
+                    Succeed = false,
+                    Message = "短信请求频率过快,请稍候再试"
+                };
+            }
+            else
+            {
+                var ret = new SendSmsCodeResult();
+                var token = Guid.NewGuid().ToString();
+                var sentRet = DefaulfSmsSender.SendCode(phoneNumber, code, scope, content, null);
+                var now = DateTime.Now;
+                SmsCodeCacheItem cacheItem = null;
+                if (sentRet.Succeed)
+                {
+                    ret = new SendSmsCodeResult()
+                    {
+                        Succeed = true,
+                        Message = "OK",
+                    };
+
+                    cacheItem = new SmsCodeCacheItem
+                    {
+                        PhoneNumber = phoneNumber,
+                        Code = code,
+                        Scope = scope,
+                        SendAt = now,
+                        Token = token,
+                        Expire = now.AddMinutes(options.SaveCodeSeconds)
+                    };
+
+                    //设置缓存
+                    SetSmsCodeCache(cacheItem);
+                }
+                else
+                {
+                    ret.Message = sentRet.Message;
+                }
+
+                ret.SmsSentResult = sentRet;
+                ret.CacheItem = cacheItem;
+                return ret;
+            }
+
+        }
 
         /// <summary>
         /// 发送短信验证码 (使用指定的短信发送器)
@@ -98,68 +159,6 @@ namespace Jcsms
                     {
                         PhoneNumber = phoneNumber,
                         Code = vcode,
-                        Scope = scope,
-                        SendAt = now,
-                        Token = token,
-                        Expire = now.AddMinutes(options.SaveCodeSeconds)
-                    };
-
-                    //设置缓存
-                    SetSmsCodeCache(cacheItem);
-                }
-                else
-                {
-                    ret.Message = sentRet.Message;
-                }
-
-                ret.SmsSentResult = sentRet;
-                ret.CacheItem = cacheItem;
-                return ret;
-            }
-
-        }
-        /// <summary>
-        /// 发送短信验证码 (使用指定的短信发送器)
-        /// </summary>
-        /// <param name="phoneNumber">手机号码</param>
-        /// <param name="scope">使用范围</param>
-        /// <param name="code">验证码</param>
-        /// <param name="content">完整短信内容</param>
-        /// <param name="smsSender"></param>
-        /// <returns></returns>
-        public SendSmsCodeResult SendSmsCode(string phoneNumber, string scope, string code, string content, ISmsSender smsSender)
-        {
-            if (string.IsNullOrWhiteSpace(code))
-            {
-                throw new Exception("验证码不能为空");
-            }
-            if (CheckFrequency(phoneNumber, scope))//限速
-            {
-                return new SendSmsCodeResult()
-                {
-                    Succeed = false,
-                    Message = "短信请求频率过快,请稍候再试"
-                };
-            }
-            else
-            {
-                var ret = new SendSmsCodeResult();
-                var token = Guid.NewGuid().ToString();
-                var sentRet = smsSender.SendCode(phoneNumber, code, scope, content, null);
-                var now = DateTime.Now;
-                SmsCodeCacheItem cacheItem = null;
-                if (sentRet.Succeed)
-                {
-                    ret = new SendSmsCodeResult()
-                    {
-                        Succeed = true,
-                        Message = "OK",
-                    };
-
-                    cacheItem = new SmsCodeCacheItem
-                    {
-                        PhoneNumber = phoneNumber,
-                        Code = code,
                         Scope = scope,
                         SendAt = now,
                         Token = token,
