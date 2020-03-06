@@ -108,6 +108,11 @@ namespace Jcsms.Aliyun
             return sentRet;
         }
 
+        public SmsSentResult SendCode(string phoneNumber, string code, string scope, string content, object smsData)
+        {
+            throw new NotImplementedException();
+        }
+
         public SmsSentResult SendFreeMessage(IEnumerable<string> phoneNumbers, string message)
         {
             throw new NotImplementedException();

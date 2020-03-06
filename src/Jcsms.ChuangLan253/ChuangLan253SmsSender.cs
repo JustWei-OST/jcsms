@@ -75,6 +75,11 @@ namespace Jcsms.ChuangLan253
 
         }
 
+        public SmsSentResult SendCode(string phoneNumber, string code, string scope, string content, object smsData)
+        {
+            return SendFreeMessage(new List<string> { phoneNumber }, content);
+        }
+
         /// <summary>
         /// 向指定的号码集合发送自写内容短信,注意,自写注意可能会被运营商屏蔽
         /// </summary>
