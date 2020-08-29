@@ -200,7 +200,9 @@ namespace Jcsms
             {
                 throw new Exception("没有配置缓存服务");
             }
-            var ce = Cache.Get<SmsCodeCacheItem>(options.GetSmsCodeCacheKey(phoneNumber, scope));
+            var key = options.GetSmsCodeCacheKey(phoneNumber, scope);
+
+            var ce = Cache.Get<SmsCodeCacheItem>(key);
             var ret = ce.HasValue && (DateTime.Now - ce.Value.SendAt).TotalSeconds <= options.SendCodeIntervals;
             return ret;
         }
