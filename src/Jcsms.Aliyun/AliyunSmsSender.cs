@@ -41,6 +41,15 @@ namespace Jcsms.Aliyun
         /// </summary>
         public string DefaultVerSmsTemplateCode { get; set; } = "SMS_103345009";
         /// <summary>
+        /// 获取余额
+        /// </summary>
+        /// <returns></returns>
+        public ResultBase<QueryBalanceResult> GetBalance()
+        {
+            throw new NotImplementedException("暂不支持此功能");
+        }
+
+        /// <summary>
         /// 发送模板短信
         /// </summary>
         /// <param name="phoneNumbers">接收号码集合</param>

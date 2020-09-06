@@ -250,6 +250,14 @@ namespace Jcsms
             Cache.Remove(options.GetSmsCodeCacheKey(model.PhoneNumber, model.Scope));
         }
 
+        /// <summary>
+        /// 获取短信余额
+        /// </summary>
+        /// <returns></returns>
+        public ResultBase<QueryBalanceResult> GetBalance()
+        {
+            return DefaulfSmsSender.GetBalance();
+        }
 
     }
 }

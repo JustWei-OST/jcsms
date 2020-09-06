@@ -47,5 +47,11 @@ namespace Jcsms
         /// <param name="message">消息内容</param>
         /// <returns></returns>
         SmsSentResult SendFreeMessage(IEnumerable<string> phoneNumbers, string message);
+        /// <summary>
+        /// 查询余额
+        /// </summary>
+        /// <returns></returns>
+        ResultBase<QueryBalanceResult> GetBalance();
+
     }
 }

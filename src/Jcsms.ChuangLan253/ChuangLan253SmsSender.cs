@@ -1,3 +1,4 @@
+using Flurl.Http;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,68 @@ namespace Jcsms.ChuangLan253
         /// 短信验名
         /// </summary>
         public string SignName { get; set; }
+        /// <summary>
+        /// 获取短信余额
+        /// </summary>
+        /// <returns></returns>
+        public ResultBase<QueryBalanceResult> GetBalance()
+        {
+            ResultBase<QueryBalanceResult> r;
+            if (Account != null && Password != null)
+            {
+                var ret = "http://smssh1.253.com/msg/balance/json"
+                        .PostJsonAsync(new
+                        {
+                            account = Account,
+                            password = Password
+                        })
+                        .ReceiveJson<ClGetBalanceRetViewModel>()
+                        .Result;
+
+                r = new ResultBase<QueryBalanceResult>()
+                {
+                    Succeed = ret.code == 0,
+                    Code = ret.code,
+                    Message = ret.errorMsg,
+                    Data = new QueryBalanceResult()
+                    {
+                        Balance = int.Parse(ret.balance),
+                        Time = PrTime(ret.time)
+                    }
+                };
+
+            }
+            else
+            {
+                r = new ResultBase<QueryBalanceResult>()
+                {
+                    Succeed = false,
+                    Code = -1,
+                    Message = "未配置短信帐号"
+                };
+            }
+            return r;
+        }
+
+        private DateTime? PrTime(string time)
+        {
+            try
+            {
+                return new DateTime(
+                    int.Parse(time.Substring(0, 4)),
+                    int.Parse(time.Substring(4, 2)),
+                    int.Parse(time.Substring(6, 2)),
+                    int.Parse(time.Substring(8, 2)),
+                    int.Parse(time.Substring(10, 2)),
+                    int.Parse(time.Substring(12, 2))
+                    );
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         /// <summary>
         /// 发送模板短信
         /// </summary>
@@ -128,4 +191,16 @@ namespace Jcsms.ChuangLan253
             return result;
         }
     }
+
+    /// <summary>
+    /// 创蓝查询短信余额返回视图模型
+    /// </summary>
+    internal class ClGetBalanceRetViewModel
+    {
+        public int code { get; set; }
+        public string balance { get; set; }
+        public string time { get; set; }
+        public string errorMsg { get; set; }
+    }
+
 }
