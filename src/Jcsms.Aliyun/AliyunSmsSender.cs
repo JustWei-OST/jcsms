@@ -70,7 +70,7 @@ namespace Jcsms.Aliyun
 
                     //必填:待发送手机号。支持以逗号分隔的形式进行批量调用，批量上限为1000个手机号码,
                     // --- 批量调用相对于单条调用及时性稍有延迟,验证码类型的短信推荐使用单条调用的方式
-                    PhoneNumbers = string.Join(',', phoneNumbers),
+                    PhoneNumbers = string.Join(",", phoneNumbers),
                     TemplateCode = templateCode, //必填:短信模板-可在短信控制台中找到
                     OutId = Guid.NewGuid().ToString(),//可选:outId为提供给业务方扩展字段,最终在短信回执消息中将此值带回给调用者
                     TemplateParam = smsData == null ? "" : JsonConvert.SerializeObject(smsData),
@@ -116,12 +116,25 @@ namespace Jcsms.Aliyun
             //TODO: 如果要根据不同场景发送不同的模板短信,在这里处理
             return sentRet;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="phoneNumber"></param>
+        /// <param name="code"></param>
+        /// <param name="scope"></param>
+        /// <param name="content"></param>
+        /// <param name="smsData"></param>
+        /// <returns></returns>
         public SmsSentResult SendCode(string phoneNumber, string code, string scope, string content, object smsData)
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="phoneNumbers"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
         public SmsSentResult SendFreeMessage(IEnumerable<string> phoneNumbers, string message)
         {
             throw new NotImplementedException();

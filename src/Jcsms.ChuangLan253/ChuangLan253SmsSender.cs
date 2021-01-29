@@ -137,7 +137,15 @@ namespace Jcsms.ChuangLan253
             return result;
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="phoneNumber"></param>
+        /// <param name="code"></param>
+        /// <param name="scope"></param>
+        /// <param name="content"></param>
+        /// <param name="smsData"></param>
+        /// <returns></returns>
         public SmsSentResult SendCode(string phoneNumber, string code, string scope, string content, object smsData)
         {
             return SendFreeMessage(new List<string> { phoneNumber }, content);
@@ -178,7 +186,7 @@ namespace Jcsms.ChuangLan253
                 //是否需要状态报告（默认为false）（选填参数）
                 report = "true",
                 //手机号码。多个手机号码使用英文逗号分隔
-                phone = string.Join(',', phoneNumbers),
+                phone = string.Join(",", phoneNumbers),
                 //短信内容。长度不能超过536个字符
                 msg = $"【{SignName}】{message}"
             };

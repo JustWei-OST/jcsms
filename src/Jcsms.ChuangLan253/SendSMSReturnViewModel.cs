@@ -2,6 +2,9 @@ using System;
 
 namespace Jcsms.ChuangLan253
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class SendSMSReturnViewModel
     {
         /// <summary>
