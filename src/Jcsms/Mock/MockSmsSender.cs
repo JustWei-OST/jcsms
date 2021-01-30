@@ -9,7 +9,11 @@ namespace Jcsms.Mock
     public class MockSmsSender : ISmsSender
     {
         public string Provider => "模拟短信服务";
-
+        private int v;
+        public MockSmsSender(int code)
+        {
+            this.v = code;
+        }
         public ResultBase<QueryBalanceResult> GetBalance()
         {
             return new ResultBase<QueryBalanceResult>()
