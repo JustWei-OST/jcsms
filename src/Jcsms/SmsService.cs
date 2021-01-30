@@ -1,4 +1,5 @@
 using EasyCaching.Core;
+using Jcsms.Mock;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -129,8 +130,16 @@ namespace Jcsms
         /// <returns></returns>
         public SendSmsCodeResult SendSmsCode(string phoneNumber, string scope, ISmsSender smsSender)
         {
-            Random rad = new Random();
-            var vcode = rad.Next(1000, 9999).ToString();
+            string vcode;
+            if (smsSender is MockSmsSender)
+            {
+                vcode = (smsSender as MockSmsSender).GetCode();
+            }
+            else
+            {
+                Random rad = new Random();
+                vcode = rad.Next(1000, 9999).ToString();
+            }
 
             if (CheckFrequency(phoneNumber, scope))//限速
             {
