@@ -126,7 +126,7 @@ namespace Jcsms.ChuangLan253
                 //是否需要状态报告（默认为false）（选填参数）
                 report = "true",
                 //短信内容。长度不能超过536个字符
-                msg = $"【{SignName}】" + "亲爱的用户，您的短信验证码为{$var},五分钟内有效，若非本人操作请忽略。",
+                msg = $"【{SignName}】" + "亲爱的用户，您本次的验证码为{$var}，五分钟内有效，若非本人操作请忽略。",
                 @params = $"{phoneNumber},{code}",
             };
 
